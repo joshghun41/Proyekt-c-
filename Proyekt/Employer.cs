@@ -9,7 +9,6 @@ namespace Proyekt
     public class Employer:Human
     {
         public List<Vacancies> Vacancie { get; set; }
-
         public void ShowAll()
         {
             foreach (Vacancies vacancies in Vacancie)

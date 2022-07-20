@@ -14,6 +14,8 @@ namespace Proyekt
         public string Name { get; set; }
         public List<string> Requirments { get; set; }
         public double Salary { get; set; }
+        public List<Notification> Notification { get; set; } = new List<Notification>();
+
         public Vacancies()
         {
             Id = ++StaticId;

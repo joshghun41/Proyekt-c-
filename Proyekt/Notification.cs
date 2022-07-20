@@ -9,7 +9,7 @@ namespace Proyekt
     public  class Notification
     {
         public int Id { get; set; }
-        public static int StaticID { get; set; }
+        public static int StaticID { get; set; } = 0;
         public int ApplicantİD { get; set; }
         public string ApplicantName { get; set; }
         public List<Cv> ApplicantCV { get; set; }
@@ -18,6 +18,16 @@ namespace Proyekt
         public void  Notifications()
         {
             Id = ++StaticID;
+        }
+
+        internal void show()
+        {
+            Console.WriteLine($@"
+        Muraciet edenler :
+
+Muraciet eden : {ApplicantName}
+Bildirisin zamani : {NotificationDate}");
+            
         }
     }
 }

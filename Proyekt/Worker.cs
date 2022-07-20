@@ -9,6 +9,7 @@ namespace Proyekt
     public class Worker : Human
     {
         public List<Cv> cv { get; set; }
+        public string notification { get; set; }
 
         public void showcv()
         {

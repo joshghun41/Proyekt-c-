@@ -133,103 +133,251 @@ namespace Proyekt
 
 
 
-
-
-
-
-
         public static void Start()
         {
-
-
-            Console.Clear();
-            Console.Write("Email : ");
-            string email = Console.ReadLine();
-
-            Console.Write("Password : ");
-            string password = Console.ReadLine();
-
-            Human human = new Human();
-            foreach (var item in humans)
+            while (true)
             {
-                if (item.Email == email && item.Password == password)
-                {
-                    human = item;
-                    break;
-                }
-            }
-            if (human is Employer)
-            {
-                Employer employer = (Employer)human;
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine("--- ---  ---  ---  www.BOSS.az --- --- --- ----");
+                Console.ResetColor();
                 Console.WriteLine($@"
+                      
+                                            Giris Etmek [1]
+                                            Qeydiyyat   [2]
+");
+                string secim2 = Console.ReadLine();
+                if (secim2 == "1")   //
+                {
+                    Console.Clear();
+                    Console.Write("Email : ");
+                    string email = Console.ReadLine();
+
+                    Console.Write("Password : ");
+                    string password = Console.ReadLine();
+
+                    Human human = new Human();
+                    foreach (var item in humans)
+                    {
+                        if (item.Email == email && item.Password == password)
+                        {
+                            human = item;
+                            break;
+                        }
+                    }
+                    if (human is Employer)
+                    {
+                        Employer employer = (Employer)human;
+                        Console.WriteLine($@"
 Vakansiyalara bax    [1]
 Vakansiya Elave et   [2]
 Bildirislere bax     [3]
 ");
-                string secim = Console.ReadLine();
-                if (secim == "1")
-                {
-                    employer.ShowAll();
+                        string secim = Console.ReadLine();
+                        if (secim == "1")
+                        {
+                            employer.ShowAll();
 
-                }
-                else if (secim == "2")
-                {
-                    employer.AddVacancies();
-                }
-                else if (secim == "3")
-                {
+                        } //showall
+                        else if (secim == "2")
+                        {
+                            employer.AddVacancies();
 
-                }
+                        }//vakansiya elave etemk
+                        else if (secim == "3")
+                        {
+                            foreach (var item in employer.Vacancie)
+                            {
+                                item.show();
+                                foreach (var item1 in item.Notification)
+                                {
+                                    Console.WriteLine($"Worker Id : {item1.ApplicantİD}");
+                                    item1.show();
+                                }
 
-            }
-            else if (human is Worker)
-            {
-                Worker worker = (Worker)human;
-                Console.Write($@"
+                            }
+                            Console.WriteLine("Hansi ID muracieti qebul edeceksiniz ?");
+                            int secim5= Convert.ToInt32(Console.ReadLine());
+
+                            foreach (var item in humans)
+                            {
+                                if (secim5 ==item.Id)
+                                {
+                                    Worker worker =  (Worker)(item);
+                                    Console.WriteLine( item.Id ); 
+                                    Console.WriteLine($@"
+Qebul etmek ucun [1]
+Redd etmek ucun  [2]
+");
+                                    int secim6= Convert.ToInt32(Console.ReadLine());
+                                    if (secim6==1)
+                                    {
+                                        worker.notification = "Qebul edildi.";
+
+                                    }
+                                    else if (secim6 == 2)
+                                    {
+                                        worker.notification = "Qebul edilmedifdgfgd.";
+                                    }
+
+                                }
+                            }
+                          
+                        }
+
+                    }
+                    //--------------------------------------------------------
+                    else if (human is Worker)
+                    {
+                        Worker worker = (Worker)human;
+                        Console.Write($@"
 Vakansiyalara bax         [1]
 Vakansiyara muraciet et   [2]
 CV-elave et               [3]
 Cv-ye bax                 [4]
+Bildirislere bax          [5]
 
 ");
-                string secim = Console.ReadLine();
-                if (secim == "1")
-                {
-                    foreach (var item in humans)
-                    {
-                        if (item is Employer)
+                        string secim = Console.ReadLine();
+                        if (secim == "1")
                         {
-                            Employer employer = (Employer)item;
-                            employer.ShowAll();
+                            foreach (var item in humans)
+                            {
+                                if (item is Employer)
+                                {
+                                    Employer employer = (Employer)item;
+                                    employer.ShowAll();
+                                }
+                            }
+                        }
+                        else if (secim == "2")
+                        {
+                            foreach (var item in humans)
+                            {
+                                if (item is Employer)
+                                {
+                                    Employer employer = (Employer)item;
+                                    employer.ShowAll();
+                                }
+                            } //show all
+                            Console.WriteLine($@"Muraciet etmek isdediyiniz Vakansiyanin ID-sini daxil edin");
+                            int select4 = Convert.ToInt32(Console.ReadLine());
+                            foreach (var item in humans)
+                            {
+                                if (item is Employer)
+                                {
+                                    Employer employer = (Employer)item;
+                                    foreach (var emp in employer.Vacancie)
+                                    {
+                                        if (emp.Id == select4)
+                                        {
+                                            Notification notification = new Notification
+                                            {
+                                                ApplicantCV = worker.cv,
+                                                ApplicantName = worker.Name,
+                                                NotificationDate = DateTime.Now,
+                                                ApplicantİD=worker.Id
+
+                                            };
+                                            emp.Notification.Add(notification);
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        else if (secim == "3")
+                        {
+                            worker.AddCv();
+
+                        }
+                        else if (secim == "4")
+                        {
+                            foreach (var item in worker.cv) { item.Show(); }
+                        }
+                        else if(secim == "5")
+                        {
+                            Console.WriteLine(worker.notification); 
                         }
                     }
+
                 }
-                else if (secim == "2")
+                //----------------------------------------------------------------------------------
+                else if (secim2 == "2")
                 {
-                    foreach (var item in humans)
+                    #region Qeydiyyat
+
+
+
+                    Console.Write("Adinizi daxil edin : ");
+                    string name = Console.ReadLine();
+
+                    Console.Write("Soyad i daxil edin : ");
+                    string surname = Console.ReadLine();
+
+                    Console.Write("Yasadiginiz seheri qeyd edin: ");
+                    string city = Console.ReadLine();
+
+                    Console.Write("Telefon nomresini qeyd edin :  +994");
+                    string phone = Console.ReadLine();
+
+                    Console.Write("Yasinizi daxil edin: ");
+                    int age = Convert.ToInt32(Console.ReadLine());
+
+                    Console.Write("MAil qeyd edin :");
+                    string mail = Console.ReadLine();
+                    Console.Write("sirrenizi qeyd edin :");
+                    string newpassword = Console.ReadLine();
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write("Sifreni yeniden qeyd edin: ");
+                    string newpasswordcopy = Console.ReadLine();
+                    if (newpassword == newpasswordcopy)
                     {
-                        if (item is Employer)
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.Write($@"
+            Isveren ucun [1]
+            Isci usun    [2]    : ");
+                        string secim3 = Console.ReadLine();
+                        if (secim3 == "1") //Employer
                         {
-                            Employer employer = (Employer)item;
-                            employer.ShowAll();
+                            Employer employer = new Employer
+                            {
+                                Name = name,
+                                Surname = surname,
+                                City = city,
+                                Phone = phone,
+                                Age = age,
+                                Email = mail,
+                                Password = newpassword,
+
+                            };
+                            humans.Add(employer);
+
                         }
+                        else if (secim3 == "2") //Worker
+                        {
+                            Worker worker = new Worker
+                            {
+                                Name = name,
+                                Surname = surname,
+                                City = city,
+                                Phone = phone,
+                                Age = age,
+                                Email = mail,
+                                Password = newpassword,
+
+                            };
+                            humans.Add(worker);
+
+                        }
+
+                        Console.WriteLine("                           Qeydiyyat ugurla tamamlandi....");
                     }
-                    Console.WriteLine($@"Muraciet etmek isdediyiniz Vakansiyanin ID-sini daxil edin");
+                    #endregion
+                }  //qeydiyyat
 
-                }
-                else if (secim == "3")
-                {
-                    worker.AddCv();
 
-                }
-                else if (secim == "4")
-                {
-                    foreach (var item in worker.cv) { item.Show();} 
-                }
+
             }
-
-
-
         }
     }
 }
